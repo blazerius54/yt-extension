@@ -1,9 +1,17 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+const WebpackExtensionManifestPlugin = require("webpack-extension-manifest-plugin");
+const baseManifest = require("./manifest.json");
 
 module.exports = {
   entry: "./src/index.js",
+  output: {
+    path: path.resolve(__dirname, "dist/"),
+    filename: "[name].js"
+  },
   mode: "development",
+  devtool: "cheap-module-source-map",
   module: {
     rules: [
       {
@@ -23,21 +31,34 @@ module.exports = {
             loader: "html-loader"
           }
         ]
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ["file-loader"]
       }
     ]
   },
   resolve: { extensions: ["*", ".js", ".jsx"] },
-  output: {
-      path: path.resolve(__dirname, "dist/"),
-      filename: "./bundle.js"
-  },
   devServer: {
     port: 3000,
   },
   plugins: [
     new HtmlWebPackPlugin({
       template: "./public/index.html",
-      filename: "./index.html"
+      filename: "./index.html",
+      manifest: "manifest.json",
+      hash: true
+    }),
+    new CopyPlugin([
+      {
+        from: "assets",
+        to: "icons"
+      }
+    ]),
+    new WebpackExtensionManifestPlugin({
+      config: {
+        base: baseManifest
+      }
     })
   ]
 };

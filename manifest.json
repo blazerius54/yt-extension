@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+
+  "name": "Yt extension",
+  "short_name": "YT",
+  "description": "Yt extension for browser",
+  "version": "1.0.0",
+
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_title": "Listen yt"
+  },
+  "default_locale": "en",
+  "icons": {
+    "48": "icons/favicon-32.png"
+  },
+  "content_security_policy": "script-src 'self' 'sha256-GgRxr...'; object-src 'self'",
+  "permissions": []
+}
