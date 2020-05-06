@@ -51,8 +51,12 @@ module.exports = {
     }),
     new CopyPlugin([
       {
-        from: "assets",
+        from: "assets/images",
         to: "icons"
+      },
+      {
+        from: "assets/messages",
+        to: "_locales",
       }
     ]),
     new WebpackExtensionManifestPlugin({
