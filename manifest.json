@@ -14,6 +14,6 @@
   "icons": {
     "48": "icons/favicon-32.png"
   },
-  "content_security_policy": "script-src 'self' 'sha256-GgRxr...'; object-src 'self'",
+  "content_security_policy": "script-src 'self' https://www.google-analytics.com/ https://www.youtube.com/ https://s.ytimg.com; object-src 'self'; child-src https://www.youtube.com/ https://s.ytimg.com",
   "permissions": []
 }
