@@ -2,22 +2,21 @@ import React from 'react';
 import './index.css';
 import { extensionId } from "../env";
 
-
-export default class App extends React.Component {
-  sendPauseMessage() {
+const App = () => {
+  const sendPauseMessage = () => {
     chrome.runtime.sendMessage(extensionId, {msg: "PAUSE"}, () => {console.log('cb')});
-  }
+  };
 
-  sendPlayMessage() {
+  const sendPlayMessage = () => {
     chrome.runtime.sendMessage(extensionId, {msg: "PLAY"}, () => {console.log('cb')});
-  }
+  };
 
-  render () {
-    return (
-      <div className='App'>
-        <button onClick={this.sendPauseMessage}>pause</button>
-        <button onClick={this.sendPlayMessage}>play</button>
-      </div>
-    )
-  }
-}
+  return (
+    <div className='App'>
+      <button onClick={sendPauseMessage}>pause</button>
+      <button onClick={sendPlayMessage}>play</button>
+    </div>
+  )
+};
+
+export default App;
