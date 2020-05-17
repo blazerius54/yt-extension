@@ -1,42 +1,22 @@
 import React from 'react';
-import YouTube from 'react-youtube';
 import './index.css';
+import { extensionId } from "../env";
+
 
 export default class App extends React.Component {
-  state = {player: null};
+  sendPauseMessage() {
+    chrome.runtime.sendMessage(extensionId, {msg: "PAUSE"}, () => {console.log('cb')});
+  }
 
-  setPlayer = (e) => {
-    console.log(e)
-    this.setState({
-      player: e.target,
-    })
-  };
+  sendPlayMessage() {
+    chrome.runtime.sendMessage(extensionId, {msg: "PLAY"}, () => {console.log('cb')});
+  }
 
   render () {
     return (
       <div className='App'>
-        <div className='videoContainer'>
-          <YouTube
-            videoId="2g811Eo7K8U"
-            onReady={this.setPlayer}
-          />
-        </div>
-        {this.state.player && (
-          <>
-            <button onClick={() => {
-              console.log(this.state);
-              this.state.player.playVideo();
-            }}>
-              play video
-            </button>
-            <button onClick={() => {
-              console.log(this.state);
-              this.state.player.pauseVideo();
-            }}>
-              pause video
-            </button>
-          </>
-        )}
+        <button onClick={this.sendPauseMessage}>pause</button>
+        <button onClick={this.sendPlayMessage}>play</button>
       </div>
     )
   }

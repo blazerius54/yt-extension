@@ -3,6 +3,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const WebpackExtensionManifestPlugin = require("webpack-extension-manifest-plugin");
 const baseManifest = require("./manifest.json");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: "./src/index.js",
@@ -57,12 +58,21 @@ module.exports = {
       {
         from: "assets/messages",
         to: "_locales",
+      },
+      {
+        from: "assets/sounds",
+        to: "sounds",
+      },
+      {
+        from: "src/background.js",
+        to: "",
       }
     ]),
     new WebpackExtensionManifestPlugin({
       config: {
         base: baseManifest
       }
-    })
+    }),
+    new CleanWebpackPlugin(),
   ]
 };
