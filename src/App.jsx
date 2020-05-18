@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.css';
 import { extensionId } from '../env';
 
+chrome.runtime.onMessage.addListener(
+  (request, sender, sendResponse) => {
+    console.log(request);
+  },
+);
+
 const App = () => {
-  const [videoURL, setVideoURL] = React.useState('');
+  const [videoURL, setVideoURL] = useState('');
 
   const handleLinkChange = (e) => {
     console.log(e.target.value, e.target);
@@ -12,12 +18,22 @@ const App = () => {
   };
 
   const sendPauseMessage = () => {
-    chrome.runtime.sendMessage(extensionId, { msg: 'PAUSE' }, () => { console.log('cb'); });
+    chrome.runtime.sendMessage(extensionId, { msg: 'PAUSE' });
   };
 
   const sendPlayMessage = () => {
-    chrome.runtime.sendMessage(extensionId, { msg: 'PLAY' }, () => { console.log('cb'); });
+    chrome.runtime.sendMessage(extensionId, { msg: 'PLAY', videoURL });
+    localStorage.setItem('videoURL', videoURL);
   };
+
+  useEffect(() => {
+    console.log();
+    const videoURLFromStorage = localStorage.getItem('videoURL');
+    if (videoURLFromStorage.length) {
+      setVideoURL(videoURLFromStorage);
+      // chrome.runtime.sendMessage(extensionId, { msg: 'PLAY', videoURL: 'https://www.youtube.com/watch?v=' + videoURL });
+    }
+  }, []);
 
   return (
     <div className="App">
@@ -26,7 +42,7 @@ const App = () => {
         <button onClick={sendPlayMessage}>play</button>
       </div>
       <div className="videoSearch">
-        <input onChange={handleLinkChange} />
+        <input onChange={handleLinkChange} value={videoURL} />
       </div>
     </div>
   );

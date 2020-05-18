@@ -29,21 +29,28 @@ function loadPlayer() {
   }
 }
 
+chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  chrome.tabs.sendMessage(tabs[0].id, { greeting: 'hello' }, (response) => {
+    console.log(response);
+  });
+});
+
 function onPlayerReady(event) {
   console.log(event);
   event.target.playVideo();
 }
 
+
 chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse) => {
-    console.log(request, sender, sendResponse);
     if (request.msg == 'PAUSE') {
       player.pauseVideo();
     }
 
     if (request.msg == 'PLAY') {
+      player.loadVideoById(request.videoURL.split('watch?v=')[1]);
+      // console.log(request.videoURL.split('watch?v=')[1]);
       player.playVideo();
-      console.log(player);
     }
 
     if (request.msg == 'LINK') {
