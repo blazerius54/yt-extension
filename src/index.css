@@ -1,13 +1,23 @@
-html, body {
-    height: 100px;
-    width: 100px;
+* {
+    box-sizing: border-box;
 }
 
-.App {
-    /*margin: 20rem;*/
+html, body {
+    height: 100px;
+    width: 300px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.videoContainer {
-    visibility: hidden;
+.App {
+    display: grid;
+}
+
+
+.App .playerControls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.App .videoSearch input {
+    width: 100%;
 }

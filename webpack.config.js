@@ -60,10 +60,6 @@ module.exports = {
         to: "_locales",
       },
       {
-        from: "assets/sounds",
-        to: "sounds",
-      },
-      {
         from: "src/background.js",
         to: "",
       }
