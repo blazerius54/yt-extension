@@ -29,36 +29,11 @@ function loadPlayer() {
   }
 }
 
-chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-  chrome.tabs.sendMessage(tabs[0].id, { greeting: 'hello' }, (response) => {
-    console.log(response);
-  });
-});
 
 function onPlayerReady(event) {
   console.log(event);
   event.target.playVideo();
 }
-
-
-chrome.runtime.onMessage.addListener(
-  (request, sender, sendResponse) => {
-    if (request.msg == 'PAUSE') {
-      player.pauseVideo();
-    }
-
-    if (request.msg == 'PLAY') {
-      player.loadVideoById(request.videoURL.split('watch?v=')[1]);
-      // console.log(request.videoURL.split('watch?v=')[1]);
-      player.playVideo();
-    }
-
-    if (request.msg == 'LINK') {
-      player.loadVideoById('usIhD6ncTO8');
-      console.log(player);
-    }
-  },
-);
 
 window.addEventListener('load',
   () => {
@@ -67,3 +42,29 @@ window.addEventListener('load',
 
     loadPlayer();
   });
+
+chrome.runtime.onInstalled.addListener(function() {
+  chrome.runtime.onMessage.addListener(
+    (request, sender, sendResponse) => {
+      if (request.msg == 'PAUSE') {
+        player.pauseVideo();
+      }
+
+      if (request.msg == 'PLAY') {
+        player.loadVideoById(request.videoURL.split('watch?v=')[1]);
+        // console.log(request.videoURL.split('watch?v=')[1]);
+        player.playVideo();
+      }
+
+      if (request.msg == 'LINK') {
+        player.loadVideoById('usIhD6ncTO8');
+        console.log(player);
+      }
+    },
+  );
+
+  // chrome.runtime.onSuspend.addListener(function() {
+  //   console.log("Unloading.");
+  //   chrome.browserAction.setBadgeText({text: ""});
+  // });
+});

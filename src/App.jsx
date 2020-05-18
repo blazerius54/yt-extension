@@ -2,12 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './index.css';
 import { extensionId } from '../env';
 
-chrome.runtime.onMessage.addListener(
-  (request, sender, sendResponse) => {
-    console.log(request);
-  },
-);
-
 const App = () => {
   const [videoURL, setVideoURL] = useState('');
 
@@ -29,7 +23,7 @@ const App = () => {
   useEffect(() => {
     console.log();
     const videoURLFromStorage = localStorage.getItem('videoURL');
-    if (videoURLFromStorage.length) {
+    if (videoURLFromStorage && videoURLFromStorage.length) {
       setVideoURL(videoURLFromStorage);
       // chrome.runtime.sendMessage(extensionId, { msg: 'PLAY', videoURL: 'https://www.youtube.com/watch?v=' + videoURL });
     }
